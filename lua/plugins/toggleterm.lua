@@ -4,18 +4,17 @@ return {
     version = "*",
     config = function()
       require("toggleterm").setup({
-        size = 20, -- Высота терминала (для горизонтального сплита)
-        open_mapping = [[<C-\>]], -- Открыть/закрыть терминал
-        hide_numbers = true, -- Скрыть номера строк в терминале
-        shade_terminals = true, -- Затемнение фона терминала
-        start_in_insert = true, -- Начать в режиме вставки
-        insert_mappings = true, -- Применять клавиши в режиме вставки
-        direction = "horizontal", -- "horizontal", "vertical", "float"
-        close_on_exit = true, -- Закрыть терминал, если команда завершилась
-        shell = vim.o.shell, -- Использовать системную оболочку
+        size = 20, 
+        open_mapping = [[<C-\>]], 
+        hide_numbers = true, 
+        shade_terminals = true, 
+        start_in_insert = true,
+        insert_mappings = true, 
+        direction = "horizontal", 
+        close_on_exit = true, 
+        shell = vim.o.shell, 
       })
 
-     -- Привязка для запуска файла
       vim.keymap.set("n", "<leader>r", function()
         local filetype = vim.bo.filetype
         local file = vim.fn.expand("%")
@@ -27,7 +26,7 @@ return {
         elseif filetype == "cpp" then
           cmd = "g++" .. file .. "&& ./a.out"
         else
-          print("No runner for filetype: " .. filetype)
+          cmd = "true"
           return
         end
         vim.cmd("ToggleTerm")

@@ -1,30 +1,23 @@
 return {
-  -- LSP серверы
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      -- Утилита для установки LSP-серверов
       { "williamboman/mason.nvim", config = true },
       { "williamboman/mason-lspconfig.nvim" },
-      -- Полезные статус-обновления для LSP
       { "j-hui/fidget.nvim", opts = {} },
     },
     config = function()
-      -- Настройка LSP серверов
       local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-      -- Список серверов для установки
-      local servers = { "pyright", "ts_ls", "lua_ls", "rust_analyzer", "hls", "bashls" } -- Добавьте нужные серверы
+      local servers = { "pyright", "lua_ls", "rust_analyzer", "hls", "bashls" } 
       require("mason-lspconfig").setup({
         ensure_installed = servers,
       })
 
-      -- Настройка каждого сервера
       for _, lsp in ipairs(servers) do
         lspconfig[lsp].setup({
           capabilities = capabilities,
-          -- Пример: специфичные настройки для lua_ls
           settings = lsp == "lua_ls" and {
             Lua = {
               diagnostics = { globals = { "vim" } },
@@ -37,15 +30,14 @@ return {
     end,
   },
 
-  -- Автодополнение
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
-      "hrsh7th/cmp-nvim-lsp", -- Источник автодополнения для LSP
-      "hrsh7th/cmp-buffer", -- Источник для текста в буфере
-      "hrsh7th/cmp-path", -- Источник для путей файлов
-      "L3MON4D3/LuaSnip", -- Движок для сниппетов
-      "saadparwaiz1/cmp_luasnip", -- Интеграция LuaSnip с cmp
+      "hrsh7th/cmp-nvim-lsp", 
+      "hrsh7th/cmp-buffer", 
+      "hrsh7th/cmp-path", 
+      "L3MON4D3/LuaSnip",
+      "saadparwaiz1/cmp_luasnip", 
     },
     config = function()
       local cmp = require("cmp")
@@ -62,7 +54,7 @@ return {
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<C-e>"] = cmp.mapping.abort(),
-          ["<Tab>"] = cmp.mapping.confirm({ select = true }), -- Подтверждение выбора
+          ["<Tab>"] = cmp.mapping.confirm({ select = true }), 
           ["<CR>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
